@@ -12,18 +12,18 @@ const navItems = [
   { href: "/profile",   icon: "👤", label: "Profile" },
 ];
 
-export default function Sidebar({ collapsed, setCollapsed }) {
+export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobileOpen }) {
   const { user } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
 
   return (
-    <aside className={`sidebar ${collapsed ? "sidebar-collapsed" : ""}`}>
+    <aside className={`sidebar ${collapsed ? "sidebar-collapsed" : ""} ${mobileOpen ? "sidebar-mobile-open" : ""}`}>
       <div className="sidebar-top">
         <div className="sidebar-brand">
           {!collapsed && <span className="sidebar-brand-text">🔐 SecureAuth</span>}
         </div>
-        <button className="sidebar-toggle" onClick={() => setCollapsed(!collapsed)}>
+        <button className="sidebar-toggle" onClick={() => { setCollapsed(!collapsed); setMobileOpen(false); }}>
           {collapsed ? "→" : "←"}
         </button>
       </div>
@@ -43,6 +43,7 @@ export default function Sidebar({ collapsed, setCollapsed }) {
           <Link
             key={href}
             href={href}
+            onClick={() => setMobileOpen(false)}
             className={`sidebar-link ${pathname === href ? "sidebar-link-active" : ""}`}
           >
             <span className="sidebar-link-icon">{icon}</span>

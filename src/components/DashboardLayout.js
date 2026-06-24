@@ -8,6 +8,7 @@ export default function DashboardLayout({ children }) {
   const { user, logout } = useAuth();
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleLogout = async () => {
     const confirmed = window.confirm("Kya aap sach mein Sign Out karna chahte hain?");
@@ -20,10 +21,22 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div className="layout-root">
-      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-      <div style={{ marginLeft: sidebarWidth, transition: "margin-left 0.25s ease", flex: 1, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      {/* Mobile overlay */}
+      {mobileOpen && <div className="sidebar-overlay" onClick={() => setMobileOpen(false)} />}
+
+      <Sidebar
+        collapsed={collapsed}
+        setCollapsed={setCollapsed}
+        mobileOpen={mobileOpen}
+        setMobileOpen={setMobileOpen}
+      />
+
+      <div className="layout-body-wrap" style={{ marginLeft: sidebarWidth }}>
         <nav className="navbar" style={{ left: sidebarWidth }}>
-          <span className="text-sm text-green-500 text-xl">{user?.name}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <button className="mobile-menu-btn" onClick={() => setMobileOpen(true)}>☰</button>
+            <span className="text-sm text-green-500 text-xl">{user?.name}</span>
+          </div>
           <button
             onClick={handleLogout}
             className="text-sm px-4 py-1.5 rounded-lg border border-red-400 text-red-400 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-200 cursor-pointer"
