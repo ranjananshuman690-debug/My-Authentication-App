@@ -6,7 +6,11 @@ import { Toaster } from "react-hot-toast";
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
 
-export const metadata = { title: "Auth App", description: "Authentication system" };
+export const metadata = {
+  title: "Auth App",
+  description: "Authentication system",
+  icons: { icon: "/icon.svg" },
+};
 
 export default function RootLayout({ children }) {
   return (
